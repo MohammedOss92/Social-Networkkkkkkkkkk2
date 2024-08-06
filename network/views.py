@@ -1,13 +1,14 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect,get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import json
 from django.shortcuts import render, get_object_or_404
+from .forms import EditProfileForm  # تأكد من استيراد النموذج المناسب
 
 from .models import *
 
@@ -159,6 +160,23 @@ def profile(request, username):
         "follower_count": follower_count,
         "following_count": following_count
     })
+
+
+
+@login_required
+def edit_profile(request, username):
+    user = get_object_or_404(User, username=username)
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile', username=user.username)  # إعادة التوجيه إلى صفحة الملف الشخصي بعد الحفظ
+    else:
+        form = EditProfileForm(instance=user)
+
+    return render(request, 'network/edit_profile.html', {'form': form, 'user': user})
+
 
 def following(request):
     if request.user.is_authenticated:

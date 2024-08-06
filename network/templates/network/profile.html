@@ -12,7 +12,9 @@
     <div class="profile-details">
         <div>
             {% if user.username == username.username %}
-            <button class="btn btn-outline-success float-right" id="edit-profile-btn">Edit Profile</button>
+            <!-- إزالة معرف id المكرر واستبداله بفئة لتجنب التكرار -->
+            <a href="{% url 'edit_profile' username.username %}"
+                class="btn btn-outline-success float-right edit-profile-btn">Edit Profile</a>
             {% elif is_follower %}
             <button class="btn btn-success float-right"
                 onclick="unfollow_user(this,'{{username.username}}','edit_page')" id="following-btn">Following</button>
@@ -25,7 +27,7 @@
             <h5>{{username.first_name}} {{username.last_name}}</h5>
             <div class="grey">@{{username.username}}</div>
             <div class="bio">
-                {% if username.bio is not None %}
+                {% if username.bio %}
                 {{username.bio}}
                 {% endif %}
             </div>
