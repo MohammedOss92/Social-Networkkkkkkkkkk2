@@ -500,3 +500,17 @@ function goto_register() {
 function goto_login() {
     window.location.href = '/n/login';
 }
+
+function fetchSuggestions() {
+    fetch('/get-suggestions') // تأكد من تحديث هذا العنوان وفقًا لنقطة النهاية الخاصة بك
+        .then(response => response.json())
+        .then(data => {
+            // تحديث المحتوى بناءً على البيانات الجديدة
+            // على سبيل المثال:
+            // updateSuggestionBox(data.suggestions);
+        })
+        .catch(error => console.error('Error fetching suggestions:', error));
+}
+
+
+

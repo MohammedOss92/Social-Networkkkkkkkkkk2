@@ -5,6 +5,21 @@
 
 
 <head>
+
+    <style>
+        .suggestion-box,
+        .guest-box {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .suggestion-box {
+            display: none;
+        }
+
+        .guest-box {
+            display: none;
+        }
+    </style>
     <title>{% block title %}Social Network{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -256,7 +271,7 @@
         {% endblock %}
 
         <div class="right-div">
-            <nav class="head">
+            <!-- <nav class="head">
                 <form action="#">
                     <div class="search-div">
                         <div>
@@ -271,7 +286,24 @@
                         <input type="text" name="query" id="search-box" placeholder="Search Network">
                     </div>
                 </form>
+            </nav> -->
+            <nav class="head">
+                <form action="{% url 'search' %}" method="GET">
+                    <div class="search-div">
+                        <div>
+                            <svg width="1em" height="1.6em" viewBox="0 0 16 6" class="bi bi-search" fill="#6d7e8c"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                                <path fill-rule="evenodd"
+                                    d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                            </svg>
+                        </div>
+                        <input type="text" name="query" id="search-box" placeholder="Search Network">
+                    </div>
+                </form>
             </nav>
+
             <div class="right-div-content">
                 <div class="space" style="background-color: white;"></div>
                 {% if user.is_authenticated %}
@@ -331,6 +363,39 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        // تحديد العناصر التي سيتم تغييرها
+        const suggestionBox = document.querySelector('.suggestion-box');
+        const guestBox = document.querySelector('.guest-box');
+
+        function changeContent() {
+            // تحقق من حالة المستخدم
+            const isAuthenticated = '{{ user.is_authenticated }}' === 'True';
+
+            if (isAuthenticated) {
+                // محتوى للمستخدمين المسجلين
+                suggestionBox.style.display = 'block';
+                guestBox.style.display = 'none';
+
+                // تحديث المحتوى بشكل دوري
+                // يمكنك هنا إضافة المنطق الخاص بتغيير الاقتراحات
+                // على سبيل المثال:
+                // fetchSuggestions(); // وظيفة لجلب الاقتراحات من الخادم
+            } else {
+                // محتوى للضيوف
+                suggestionBox.style.display = 'none';
+                guestBox.style.display = 'block';
+            }
+        }
+
+        // تغيير المحتوى كل 10 ثوانٍ (10000 ميللي ثانية)
+        setInterval(changeContent, 10000);
+
+        // تغيير المحتوى عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', changeContent);
+    </script>
 
 </body>
 

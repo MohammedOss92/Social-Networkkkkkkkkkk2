@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 {% extends "network/layout2.html" %}
 
 {% load static %}
@@ -58,14 +60,16 @@ Sign Up | Network
         </div>
         <div class="form-group">
             <div class="custom-file">
-                <input type="file" name="profile" class="form-control custom-file-input" id="profile"
-                    accept="image/jpeg,image/png,image/webp,image/gif" data-focusable="true"
-                    aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="profile"><span style="color: #6c757d;">Choose profile
-                        picture</span></label>
-                <span class="star small"></span>
+                <input type="file" name="profile_pic" class="form-control custom-file-input" id="profile"
+                    accept="image/jpeg,image/png,image/webp,image/gif" onchange="previewImage('profile')"
+                    aria-describedby="profileDesc">
+                <label class="custom-file-label" for="profile">اختر صورة الملف الشخصي</label>
+                <span id="profileDesc" class="star small">{{ form.profile_pic.errors }}</span>
+                <img id="profile-preview" src="#" alt="Profile Picture Preview"
+                    style="display:none; max-width: 200px; margin-top: 10px;">
             </div>
         </div>
+
         <div class="form-group">
             <div class="custom-file">
                 <input type="file" name="cover" class="form-control custom-file-input" id="cover"
@@ -89,3 +93,5 @@ Sign Up | Network
     </div><br><br>
 </div>
 {% endblock %}
+
+</html>

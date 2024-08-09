@@ -161,6 +161,31 @@ def profile(request, username):
         "following_count": following_count
     })
 
+@login_required
+def search(request):
+    query = request.GET.get('query', '')
+    users = User.objects.filter(username__icontains=query)  # بحث عن المستخدمين
+    current_user = request.user  # الحصول على المستخدم الحالي
+
+    return render(request, 'network/search_result.html', {
+        'users': users,
+        'query': query,
+        'current_user': current_user,
+    })
+
+# @login_required
+# def search(request):
+#     query = request.GET.get('q', '')
+#     current_user = request.user
+
+#     if query:
+#         # البحث عن المستخدمين بناءً على الاستعلام
+#         users = User.objects.filter(username__icontains=query).exclude(username=current_user.username)
+#     else:
+#         users = User.objects.none()  # لا توجد نتائج إذا لم يكن هناك استعلام
+
+#     return render(request, 'your_template.html', {'users': users, 'query': query})
+
 
 
 @login_required
@@ -171,11 +196,15 @@ def edit_profile(request, username):
         form = EditProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('profile', username=user.username)  # إعادة التوجيه إلى صفحة الملف الشخصي بعد الحفظ
+            return redirect('profile', username=user.username)
+        else:
+            print("Form is invalid.")
+            print(form.errors)
     else:
         form = EditProfileForm(instance=user)
 
     return render(request, 'network/edit_profile.html', {'form': form, 'user': user})
+
 
 
 def following(request):

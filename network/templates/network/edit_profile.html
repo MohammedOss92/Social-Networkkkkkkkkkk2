@@ -7,6 +7,7 @@
 {% block script %}
 <script type="text/javascript" src="{% static 'network/edit_profile.js' %}"></script>
 {% endblock %}
+
 {% block profile %}
 <div class="container mt-4">
     <h2>Edit Profile</h2>
@@ -19,12 +20,12 @@
         <div class="form-group">
             <div class="form-row align-items-center">
                 <div class="col-sm-6 my-1">
-                    <input class="form-control inp fname" type="text" name="firstname" placeholder="First Name *"
+                    <input class="form-control inp fname" type="text" name="first_name" placeholder="First Name *"
                         value="{{ form.first_name.value|default:user.first_name }}" autocomplete="off" autofocus>
                     <span class="star small">{{ form.first_name.errors }}</span>
                 </div>
                 <div class="col-sm-6 my-1">
-                    <input class="form-control inp lname" type="text" name="lastname" placeholder="Last Name *"
+                    <input class="form-control inp lname" type="text" name="last_name" placeholder="Last Name *"
                         value="{{ form.last_name.value|default:user.last_name }}" autocomplete="off">
                     <span class="star small">{{ form.last_name.errors }}</span>
                 </div>
@@ -42,23 +43,70 @@
         </div>
         <div class="form-group">
             <div class="custom-file">
-                <input type="file" name="profile" class="form-control custom-file-input" id="profile"
-                    accept="image/jpeg,image/png,image/webp,image/gif">
+                <input type="file" name="profile_pic" class="form-control custom-file-input" id="profile"
+                    accept="image/jpeg,image/png,image/webp,image/gif" onchange="previewImage('profile')"
+                    aria-describedby="profileDesc">
                 <label class="custom-file-label" for="profile">اختر صورة الملف الشخصي</label>
-                <span class="star small">{{ form.profile_pic.errors }}</span>
+                <span id="profileDesc" class="star small">{{ form.profile_pic.errors }}</span>
+                <img id="profile-preview" src="#" alt="Profile Picture Preview"
+                    style="display:none; max-width: 200px; margin-top: 10px;">
             </div>
         </div>
+
         <div class="form-group">
             <div class="custom-file">
                 <input type="file" name="cover" class="form-control custom-file-input" id="cover"
-                    accept="image/jpeg,image/png,image/webp,image/gif">
+                    accept="image/jpeg,image/png,image/webp,image/gif" onchange="previewImage('cover')">
                 <label class="custom-file-label" for="cover">اختر صورة الغلاف</label>
                 <span class="star small">{{ form.cover.errors }}</span>
+                <img id="cover-preview" src="#" alt="Cover Picture Preview"
+                    style="display:none; max-width: 200px; margin-top: 10px;">
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 {% endblock %}
+
+<script>
+    function previewImage(inputId) {
+        var input = document.getElementById(inputId);
+        var file = input.files[0];
+        var preview = document.getElementById(inputId + '-preview');
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Update labels and preview images on file input change
+        document.querySelectorAll('.custom-file-input').forEach(element => {
+            element.addEventListener('change', event => {
+                if (event.target.files[0]) {
+                    event.target.nextElementSibling.innerText = event.target.files[0].name;
+                } else {
+                    if (event.target.id == 'profile') {
+                        event.target.nextElementSibling.innerHTML = `<span style="color: #6c757d;">Choose profile picture<span>`;
+                    } else if (event.target.id == 'cover') {
+                        event.target.nextElementSibling.innerHTML = `<span style="color: #6c757d;">Choose cover picture<span>`;
+                    }
+                }
+                previewImage(event.target.id);
+            });
+        });
+    });
+</script>
 
 </html>
