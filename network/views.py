@@ -447,3 +447,20 @@ def delete_post(request, post_id):
             return HttpResponse("Method must be 'PUT'")
     else:
         return HttpResponseRedirect(reverse('login'))
+    
+
+
+
+@login_required
+def more_suggestions(request):
+    if request.user.is_authenticated:
+        followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
+        # المستخدمين الذين لم تقم بعمل متابعة لهم
+        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+        return render(request, "network/more_suggestions.html", {
+            "suggestions": suggestions
+        })
+    else:
+        return HttpResponseRedirect(reverse('login'))
+
+

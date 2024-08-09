@@ -341,7 +341,9 @@
                     </div>
                     {% endfor %}
                     <div class="suggestion-footer">
-                        <a href="#">Show more</a>
+                        <!-- <a href="#">Show more</a> -->
+                        <a href="{% url 'more_suggestions' %}?page=2">Show more</a>
+
                     </div>
                 </div>
                 {% else %}
