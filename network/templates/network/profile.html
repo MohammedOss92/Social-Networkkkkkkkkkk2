@@ -47,12 +47,12 @@
                 </strong>
                 &nbsp;<span class="grey">Posts</span>
                 &ensp;
-                <a href="#">
+                <a href="{% url 'followingddd' %}">
                     <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span
                         class="grey">Following</span>
                 </a>
                 &ensp;
-                <a href="#">
+                <a href="{% url 'follower' %}">
                     <strong id="follower__count">{{follower_count | default:0}}</strong>&nbsp;<span
                         class="grey">Followers</span>
                 </a>

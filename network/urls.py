@@ -28,6 +28,12 @@ urlpatterns = [
     path('edit-profile/<str:username>/', views.edit_profile, name='edit_profile'),
     path('search/', views.search, name='search'),
     path('more_suggestions/', views.more_suggestions, name='more_suggestions'),
+    path('follower/', views.follower_view, name='follower'),
+    path('profile/<str:username>/following/', views.followinglist, name='following_list'),
+    path('followingddd/', views.followinglist, name='followingddd'),
+
+
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

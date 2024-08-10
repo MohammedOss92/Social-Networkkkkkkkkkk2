@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Following Users</title>
+</head>
+
+<body>
+    <h1>Users You Are Following:</h1>
+
+    {% if following_users %}
+    <ul>
+        {% for username in following_users %}
+        <li>{{ username }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You are not following anyone.</p>
+    {% endif %}
+
+    <a href="{% url 'profile' request.user.username %}">Back to Profile</a>
+</body>
+
+</html>

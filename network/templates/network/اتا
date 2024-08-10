@@ -13,24 +13,6 @@ from .forms import EditProfileForm  # تأكد من استيراد النموذ�
 from .models import *
 
 
-
-
-
-from django.contrib.auth import authenticate, login, logout
-from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render,redirect,get_object_or_404
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
-from django.core.paginator import Paginator
-import json
-from django.shortcuts import render, get_object_or_404
-from .forms import EditProfileForm  # تأكد من استيراد النموذج المناسب
-
-from .models import *
-
-
 def index(request):
     all_posts = Post.objects.all().order_by('-date_created')
     paginator = Paginator(all_posts, 10)
@@ -178,35 +160,6 @@ def profile(request, username):
         "follower_count": follower_count,
         "following_count": following_count
     })
-
-
-
-def following_lisat(request, username):
-    user = get_object_or_404(User, username=username)
-    
-    # الحصول على الأشخاص الذين يتابعهم المستخدم
-    following_users = user.user_following.all()
-
-    return render(request, 'network/following.html', {
-        'user': user,
-        'following_users': following_users
-    })
-
-
-
-def followinglist(request):
-    if request.user.is_authenticated:
-        # جلب أسماء المستخدمين الذين يتابعهم المستخدم الحالي
-        following_users = Follower.objects.filter(followers=request.user).values_list('user__username', flat=True)
-
-        return render(request, "network/following.html", {
-            "following_users": following_users,
-        })
-    else:
-        return HttpResponseRedirect(reverse('login'))
-
-
-
 
 @login_required
 def search(request):
@@ -455,7 +408,7 @@ def unfollow(request, username):
     
     
 # @login_required
-def follower_view(request):
+def following_view(request):
     # استرجاع كائن Follower للمستخدم الحالي
     try:
         follower_object = Follower.objects.get(user=request.user)
@@ -464,13 +417,9 @@ def follower_view(request):
         following_users = follower_object.followers.all()
     except Follower.DoesNotExist:
         following_users = []
-    return render(request, 'network/followers.html', {
+    return render(request, 'network/following.html', {
         'following_users': following_users,
     })
-
-
-
-
 
 
 
@@ -530,8 +479,5 @@ def more_suggestions(request):
         })
     else:
         return HttpResponseRedirect(reverse('login'))
-
-
-
 
 

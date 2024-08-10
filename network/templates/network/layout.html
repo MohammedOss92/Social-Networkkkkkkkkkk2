@@ -305,6 +305,8 @@
             </nav>
 
             <div class="right-div-content">
+                {% block right_sidebar %}
+
                 <div class="space" style="background-color: white;"></div>
                 {% if user.is_authenticated %}
                 <div class="suggestion-box">
@@ -362,6 +364,9 @@
                     </center>
                 </div>
                 {% endif %}
+
+                {% endblock %}
+
             </div>
         </div>
     </div>

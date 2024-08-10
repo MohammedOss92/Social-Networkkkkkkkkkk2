@@ -8,6 +8,7 @@ class User(AbstractUser):
     bio = models.TextField(max_length=160, blank=True, null=True)
     cover = models.ImageField(upload_to='covers/', blank=True)
 
+    
     def __str__(self):
         return self.username
 
@@ -56,10 +57,20 @@ class Comment(models.Model):
             "timestamp": self.comment_time.strftime("%b %d %Y, %I:%M %p")
         }
     
+
+# نموذج للذين يتابعوني
 class Follower(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
-    followers = models.ManyToManyField(User, blank=True, related_name='following')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_followers')
+    followers = models.ManyToManyField(User, blank=True, related_name='user_following')
 
     def __str__(self):
         return f"User: {self.user}"
+    
+
+
+
+
+
+
+
         

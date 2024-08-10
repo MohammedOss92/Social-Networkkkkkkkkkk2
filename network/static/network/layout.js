@@ -325,6 +325,36 @@ function unsave_post(element) {
         });
 }
 
+function follow_user(element, username, origin) {
+    if (document.querySelector('#user_is_authenticated').value === 'False') {
+        login_popup('follow');
+        return false;
+    }
+    fetch('/' + username + '/follow', {
+        method: 'PUT'
+    })
+        .then(() => {
+            if (origin === 'suggestion') {
+                element.parentElement.innerHTML = `<button class="btn btn-success" type="button" onclick="unfollow_user(this,'${username}','suggestion')">Following</button>`;
+            } else if (origin === 'edit_page') {
+                element.parentElement.innerHTML = `<button class="btn btn-success float-right" onclick="unfollow_user(this,'${username}','edit_page')" id="following-btn">Following</button>`;
+            } else if (origin === 'dropdown') {
+                // سيتم إضافة المنطق هنا لاحقاً
+            }
+
+            if (document.querySelector('.body').dataset.page === 'profile') {
+                if (document.querySelector('.profile-view').dataset.user === username) {
+                    document.querySelector('#follower__count').innerHTML++;
+                }
+            }
+            if (document.querySelector('.body').dataset.page === 'profile') {
+                if (document.querySelector('.profile-view').dataset.user === document.querySelector('#user_is_authenticated').dataset.username) {
+                    document.querySelector('#following__count').innerHTML++;
+                }
+            }
+        });
+}
+
 
 function follow_user(element, username, origin) {
     if (document.querySelector('#user_is_authenticated').value === 'False') {
