@@ -3,15 +3,52 @@
 
 <head>
     <title>Following Users</title>
+    <style>
+        .user-list {
+            list-style-type: none;
+            /* إزالة النقاط من القائمة */
+            padding: 0;
+            /* إزالة الحشو الافتراضي */
+        }
+
+        .user-item {
+            display: flex;
+            /* عرض العناصر بشكل أفقي */
+            align-items: center;
+            /* محاذاة العناصر عمودياً في المنتصف */
+            margin-bottom: 10px;
+            /* إضافة مسافة بين العناصر */
+        }
+
+        .user-item img {
+            border-radius: 50%;
+            /* جعل الصورة دائرية */
+            margin-right: 10px;
+            /* إضافة مسافة بين الصورة والاسم */
+            width: 50px;
+            /* تعيين العرض */
+            height: 50px;
+            /* تعيين الارتفاع */
+            object-fit: cover;
+            /* الحفاظ على تناسب الصورة */
+            border: 2px solid #ddd;
+            /* إضافة حدود رمادية اللون للصورة */
+        }
+    </style>
 </head>
 
 <body>
     <h1>Users You Are Following:</h1>
 
     {% if following_users %}
-    <ul>
-        {% for username in following_users %}
-        <li>{{ username }}</li>
+    <ul class="user-list">
+        {% for user in following_users %}
+        <li class="user-item">
+            <!-- عرض صورة الملف الشخصي -->
+            <img src="/media/{{ user.user__profile_pic }} " alt="{{ user.user__username }}">
+            <!-- عرض اسم المستخدم كرابط -->
+            <a href="{% url 'profile' user.user__username %}">{{ user.user__username }}</a>
+        </li>
         {% endfor %}
     </ul>
     {% else %}

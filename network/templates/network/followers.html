@@ -1,16 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Users You Follow</title>
+    <title>Following Users ({{ following_count }})</title>
+    <style>
+        .user-list {
+            list-style-type: none;
+            /* إزالة النقاط من القائمة */
+            padding: 0;
+            /* إزالة الحشو الافتراضي */
+        }
+
+        .user-item {
+            display: flex;
+            /* عرض العناصر بشكل أفقي */
+            align-items: center;
+            /* محاذاة العناصر عمودياً في المنتصف */
+            margin-bottom: 10px;
+            /* إضافة مسافة بين العناصر */
+        }
+
+        .user-item img {
+            border-radius: 50%;
+            /* جعل الصورة دائرية */
+            margin-right: 10px;
+            /* إضافة مسافة بين الصورة والاسم */
+        }
+    </style>
 </head>
 
 <body>
     <h1>Users You Follow ({{ following_count }})</h1>
-    <ul>
+
+    <ul class="user-list">
         {% for user in following_users %}
-        <li><a href="{% url 'profile' user.username %}">{{ user.username }}</a></li>
+        <li class="user-item">
+            <!-- عرض صورة الملف الشخصي -->
+            <img src="/media/{{ user.profile_pic }}" alt="{{ user.username }}" width="50" height="50">
+            <!-- عرض اسم المستخدم كرابط -->
+            <a href="{% url 'profile' user.username %}">{{ user.username }}</a>
+        </li>
         {% empty %}
         <li>You are not following anyone yet.</li>
         {% endfor %}

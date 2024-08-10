@@ -196,14 +196,26 @@ def following_lisat(request, username):
 
 def followinglist(request):
     if request.user.is_authenticated:
-        # جلب أسماء المستخدمين الذين يتابعهم المستخدم الحالي
-        following_users = Follower.objects.filter(followers=request.user).values_list('user__username', flat=True)
+        # جلب أسماء المستخدمين وصور الملف الشخصي
+        following_users = Follower.objects.filter(followers=request.user).select_related('user').values('user__username', 'user__profile_pic')
 
         return render(request, "network/following.html", {
             "following_users": following_users,
         })
     else:
         return HttpResponseRedirect(reverse('login'))
+    
+    # if request.user.is_authenticated:
+    #     # جلب أسماء المستخدمين الذين يتابعهم المستخدم الحالي
+    #     # following_users = Follower.objects.filter(followers=request.user).values_list('user__username', flat=True)
+    #     following_users = Follower.objects.filter(followers=request.user).select_related('user').values('user__username', 'user__profile_pic')
+
+
+    #     return render(request, "network/following.html", {
+    #         "following_users": following_users,
+    #     })
+    # else:
+    #     return HttpResponseRedirect(reverse('login'))
 
 
 
