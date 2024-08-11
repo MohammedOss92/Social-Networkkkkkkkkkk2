@@ -14,7 +14,7 @@
             margin: 0 auto;
         }
 
-        .user-list {
+        /* .user-list {
             list-style-type: none;
             padding: 0;
             margin: 0;
@@ -27,9 +27,43 @@
 
         .user-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            width: 150px;
+            padding: 10px;
             margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        } */
+        .user-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* عرض عمودين */
+            gap: 20px;
+            /* المسافة بين العناصر */
+            justify-content: center;
+            /* توسيط الشبكة */
+            padding: 0;
+            list-style-type: none;
+            /* إزالة النقاط من القائمة */
         }
+
+        .user-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 150px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
 
         .user-item img {
             border-radius: 50%;
@@ -69,6 +103,42 @@
 </head>
 
 <body>
+
+    <div class="right-div">
+        <!-- <nav class="head">
+            <form action="#">
+                <div class="search-div">
+                    <div>
+                        <svg width="1em" height="1.6em" viewBox="0 0 16 6" class="bi bi-search" fill="#6d7e8c"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                            <path fill-rule="evenodd"
+                                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" name="query" id="search-box" placeholder="Search Network">
+                </div>
+            </form>
+        </nav> -->
+        <nav class="head">
+            <form action="{% url 'search' %}" method="GET">
+                <div class="search-div">
+                    <div>
+                        <svg width="1em" height="1.6em" viewBox="0 0 16 6" class="bi bi-search" fill="#6d7e8c"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                            <path fill-rule="evenodd"
+                                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" name="query" id="search-box" placeholder="Search Network">
+                </div>
+            </form>
+        </nav>
+    </div>
+
     <div class="container">
         <h1>Users You Are Following:</h1>
 
@@ -87,7 +157,7 @@
         <p>You are not following anyone.</p>
         {% endif %}
 
-        <a href="{% url 'profile' request.user.username %}" class="back-link">Back to Profile</a>
+
     </div>
 
     <div class="sidenav">
@@ -197,6 +267,7 @@
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
