@@ -57,6 +57,8 @@
             align-items: center;
             width: 150px;
             padding: 10px;
+
+
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #f9f9f9;
@@ -147,10 +149,14 @@
             {% for user in following_users %}
             <li class="user-item">
                 <!-- عرض صورة الملف الشخصي -->
-                <img src="/media/{{ user.user__profile_pic }}" alt="{{ user.user__username }}">
+                <a href="{% url 'profile' user.user__username %}">
+                    <img src="/media/{{ user.user__profile_pic }}" alt="{{ user.user__username }}" width="50"
+                        height="50">
+                </a>
                 <!-- عرض اسم المستخدم كرابط -->
                 <a href="{% url 'profile' user.user__username %}">{{ user.user__username }}</a>
             </li>
+
             {% endfor %}
         </ul>
         {% else %}

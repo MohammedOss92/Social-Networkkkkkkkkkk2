@@ -13,30 +13,7 @@
             margin: 0 auto;
         }
 
-        /* .user-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-left: 20px;
-        }
 
-        .user-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 150px;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        } */
 
         .user-list {
             display: grid;
@@ -148,7 +125,9 @@
             {% for user in following_users %}
             <li class="user-item">
                 <!-- عرض صورة الملف الشخصي -->
-                <img src="/media/{{ user.profile_pic }}" alt="{{ user.username }}" width="50" height="50">
+                <a href="{% url 'profile' user.username %}">
+                    <img src="/media/{{ user.profile_pic }}" alt="{{ user.username }}" width="50" height="50">
+                </a>
                 <!-- عرض اسم المستخدم كرابط -->
                 <a href="{% url 'profile' user.username %}">{{ user.username }}</a>
             </li>
