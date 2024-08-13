@@ -220,17 +220,35 @@ def followinglist(request):
 
 
 
+# @login_required
+# def search(request):
+#     query = request.GET.get('query', '')
+#     users = User.objects.filter(username__icontains=query)  # بحث عن المستخدمين
+#     current_user = request.user  # الحصول على المستخدم الحالي
+
+#     return render(request, 'network/search_result.html', {
+#         'users': users,
+#         'query': query,
+#         'current_user': current_user,
+#     })
+
+
 @login_required
 def search(request):
     query = request.GET.get('query', '')
     users = User.objects.filter(username__icontains=query)  # بحث عن المستخدمين
     current_user = request.user  # الحصول على المستخدم الحالي
 
+    # الحصول على قائمة المستخدمين الذين يتابعهم المستخدم الحالي
+    followed_users = User.objects.filter(followers__follower=current_user).prefetch_related('profile_pic')
+
     return render(request, 'network/search_result.html', {
         'users': users,
         'query': query,
         'current_user': current_user,
+        'followed_users': followed_users,
     })
+
 
 # @login_required
 # def search(request):

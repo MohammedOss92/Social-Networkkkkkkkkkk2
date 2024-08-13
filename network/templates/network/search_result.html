@@ -160,6 +160,13 @@
                     <div>
                         <strong>{{ user.first_name }} {{ user.last_name }}</strong>
                         <div class="grey">@{{ user.username }}</div>
+                        {% if user in followed_users %}
+                        <button class="btn btn-success"
+                            onclick="unfollow_user(this, '{{ user.username }}', 'suggestion')">Following</button>
+                        {% else %}
+                        <button class="btn btn-outline-success"
+                            onclick="follow_user(this, '{{ user.username }}', 'suggestion')">Follow</button>
+                        {% endif %}
                     </div>
                 </a>
             </div>
@@ -167,10 +174,15 @@
             {% endfor %}
         </div>
         {% else %}
-
-
         <p>No users found.</p>
         {% endif %}
+
+    </div>
+
+
+
+    <p>No users found.</p>
+    {% endif %}
     </div>
 
 
